@@ -1,8 +1,16 @@
 import OpenAI from 'openai'
 
-const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-})
+// Lazy-load the client to avoid build-time errors
+let client: OpenAI | null = null
+
+function getClient(): OpenAI {
+  if (!client) {
+    client = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    })
+  }
+  return client
+}
 
 export interface UserContext {
   goals: string[]
@@ -38,7 +46,7 @@ Generate ONE powerful, specific daily question that will:
 
 The question should be empowering and action-oriented. Return ONLY the question, no explanation.`
 
-    const response = await client.chat.completions.create({
+    const response = await getClient().chat.completions.create({
       model: 'gpt-3.5-turbo',
       messages: [{
         role: 'user',
@@ -78,7 +86,7 @@ Respond in JSON format:
   "insight": "Brief coaching insight here"
 }`
 
-    const response = await client.chat.completions.create({
+    const response = await getClient().chat.completions.create({
       model: 'gpt-3.5-turbo',
       messages: [{
         role: 'user',
@@ -126,7 +134,7 @@ Create a vivid, emotionally compelling scenario of where they'll be in ${timefra
 
 Focus on the CUMULATIVE COST and lost opportunities.`
 
-    const response = await client.chat.completions.create({
+    const response = await getClient().chat.completions.create({
       model: 'gpt-3.5-turbo',
       messages: [{
         role: 'user',
@@ -161,7 +169,7 @@ Create a vivid, inspiring scenario of where they'll be in ${timeframe} having MA
 
 Focus on the COMPOUNDING BENEFITS and transformation.`
 
-    const response = await client.chat.completions.create({
+    const response = await getClient().chat.completions.create({
       model: 'gpt-3.5-turbo',
       messages: [{
         role: 'user',
@@ -188,7 +196,7 @@ Recent Activity: ${JSON.stringify(recentActivity)}
 
 Return a single, actionable focus statement (e.g., "Today, focus on finding solutions, not dwelling on problems"). Max 15 words.`
 
-    const response = await client.chat.completions.create({
+    const response = await getClient().chat.completions.create({
       model: 'gpt-3.5-turbo',
       messages: [{
         role: 'user',
@@ -216,7 +224,7 @@ Provide a brief (2-3 sentences), powerful coaching insight that:
 
 Be encouraging, direct, and passionate. Use Tony Robbins' coaching style.`
 
-    const response = await client.chat.completions.create({
+    const response = await getClient().chat.completions.create({
       model: 'gpt-3.5-turbo',
       messages: [{
         role: 'user',
@@ -259,7 +267,7 @@ Return a JSON object with:
 
 Choose from famous motivational speakers, philosophers, or leaders. Make it relevant and powerful.`
 
-    const response = await client.chat.completions.create({
+    const response = await getClient().chat.completions.create({
       model: 'gpt-3.5-turbo',
       messages: [{
         role: 'user',
@@ -320,7 +328,7 @@ Examples:
 
 Return ONLY the focus statement, no explanation.`
 
-    const response = await client.chat.completions.create({
+    const response = await getClient().chat.completions.create({
       model: 'gpt-3.5-turbo',
       messages: [{
         role: 'user',
