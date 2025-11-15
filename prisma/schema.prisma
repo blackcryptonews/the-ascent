@@ -1,0 +1,153 @@
+// The Ascent - Database Schema (SQLite for dev, PostgreSQL for production)
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                    String   @id @default(uuid())
+  email                 String   @unique
+  name                  String?
+  password              String?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  onboardingCompleted   Boolean  @default(false)
+  timezone              String   @default("UTC")
+
+  profile               UserProfile?
+  dailyQuestions        DailyQuestion[]
+  dailyQuotes           DailyQuote[]
+  habits                Habit[]
+  painPleasureExercises PainPleasureExercise[]
+  journalEntries        JournalEntry[]
+  aiInsights            AIInsight[]
+  activityLogs          ActivityLog[]
+
+  @@map("users")
+}
+
+model UserProfile {
+  id              String   @id @default(uuid())
+  userId          String   @unique
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  primaryGoals    String   // Comma-separated
+  negativeWords   String   @default("") // Comma-separated
+  currentFocusArea String?
+  streakCount     Int      @default(0)
+  lastActivityDate DateTime?
+  totalPoints     Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("user_profiles")
+}
+
+model DailyQuestion {
+  id               String    @id @default(uuid())
+  userId           String
+  user             User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  questionText     String
+  questionType     String?
+  responseText     String?
+  responseVoiceUrl String?
+  responseSentiment String?
+  createdAt        DateTime  @default(now())
+  answeredAt       DateTime?
+
+  @@map("daily_questions")
+}
+
+model DailyQuote {
+  id             String   @id @default(uuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  quoteText      String
+  quoteAuthor    String?
+  relevanceScore Float?
+  createdAt      DateTime @default(now())
+
+  @@map("daily_quotes")
+}
+
+model Habit {
+  id              String   @id @default(uuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  habitName       String
+  habitType       String
+  currentBehavior String
+  desiredBehavior String
+  status          String   @default("active")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  painPleasureExercises PainPleasureExercise[]
+
+  @@map("habits")
+}
+
+model PainPleasureExercise {
+  id                    String    @id @default(uuid())
+  habitId               String
+  habit                 Habit     @relation(fields: [habitId], references: [id], onDelete: Cascade)
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  painScenario          String?
+  painVisualization     String?
+  painIntensity         Int?
+
+  pleasureScenario      String?
+  pleasureVisualization String?
+  pleasureIntensity     Int?
+
+  completedAt           DateTime?
+  replayCount           Int       @default(0)
+  lastReplayedAt        DateTime?
+  createdAt             DateTime  @default(now())
+
+  @@map("pain_pleasure_exercises")
+}
+
+model JournalEntry {
+  id              String   @id @default(uuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  entryText       String
+  entryType       String?
+  sentimentScore  Float?
+  negativeWordsUsed String @default("") // Comma-separated
+  aiInsights      String?
+  createdAt       DateTime @default(now())
+
+  @@map("journal_entries")
+}
+
+model AIInsight {
+  id              String   @id @default(uuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  insightType     String
+  insightText     String
+  confidenceScore Float?
+  relatedEntryId  String?
+  actedUpon       Boolean  @default(false)
+  createdAt       DateTime @default(now())
+
+  @@map("ai_insights")
+}
+
+model ActivityLog {
+  id           String   @id @default(uuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  activityType String
+  pointsEarned Int      @default(0)
+  createdAt    DateTime @default(now())
+
+  @@map("activity_logs")
+}
