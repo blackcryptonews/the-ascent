@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { openaiService } from '@/lib/ai/openai'
 
+export const dynamic = 'force-dynamic'
+
 /**
  * GET /api/daily/question
  * Get or generate today's power question

@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { openaiService } from '@/lib/ai/openai'
 
+export const dynamic = 'force-dynamic'
+
 /**
  * POST /api/habits/[id]/exercise
  * Create or update pain/pleasure exercise for a habit
