@@ -1,11 +1,12 @@
-// The Ascent - Database Schema (SQLite for dev, PostgreSQL for production)
+// The Ascent - Database Schema (PostgreSQL for production)
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
