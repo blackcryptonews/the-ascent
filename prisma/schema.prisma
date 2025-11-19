@@ -1,4 +1,4 @@
-// The Ascent - Database Schema (PostgreSQL for production)
+// Eneuroa - Database Schema (PostgreSQL for production)
 generator client {
   provider = "prisma-client-js"
 }
@@ -6,7 +6,6 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
 }
 
 model User {

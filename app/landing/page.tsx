@@ -46,7 +46,7 @@ export default function LandingPage() {
     {
       name: 'Sarah Mitchell',
       role: 'Entrepreneur',
-      text: 'The Ascent helped me break free from self-doubt. The Pain & Pleasure technique was a game-changer. I finally launched my business!',
+      text: 'Eneuroa helped me break free from self-doubt. The Pain & Pleasure technique was a game-changer. I finally launched my business!',
       rating: 5
     },
     {
@@ -94,7 +94,7 @@ export default function LandingPage() {
             animate={{ opacity: 1, x: 0 }}
             className="text-2xl font-bold"
           >
-            The Ascent
+            Eneuroa
           </motion.div>
           <motion.button
             initial={{ opacity: 0, x: 20 }}
@@ -180,7 +180,7 @@ export default function LandingPage() {
           viewport={{ once: true }}
           className="text-4xl md:text-5xl font-bold text-center mb-16"
         >
-          Why The Ascent Works
+          Why Eneuroa Works
         </motion.h2>
 
         <div className="grid md:grid-cols-3 gap-8">
@@ -330,7 +330,7 @@ export default function LandingPage() {
       {/* Footer */}
       <div className="relative z-10 border-t border-white/10 py-8">
         <div className="max-w-7xl mx-auto px-6 text-center text-purple-300">
-          <p>&copy; 2025 The Ascent. Built with ❤️ for personal transformation.</p>
+          <p>&copy; 2025 Eneuroa. Built with ❤️ for personal transformation.</p>
         </div>
       </div>
     </div>

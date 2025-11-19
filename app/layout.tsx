@@ -6,7 +6,7 @@ import { Providers } from '@/components/providers'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'The Ascent - Personal Transformation Coaching',
+  title: 'Eneuroa - Personal Transformation Coaching',
   description: 'Where every day is a step up. Break through limiting beliefs and build unstoppable momentum with your personal AI coach, inspired by proven methodologies. Your journey to a transformed life starts here.',
 }
 
